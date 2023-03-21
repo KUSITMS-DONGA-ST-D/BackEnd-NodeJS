@@ -10,6 +10,14 @@ router.get('/', async (req, res, next) => {
     await connection.connect();
     try {
         const date = req.body.date;
+        
+        if(date === null){
+            return res.status(404).json({
+              message:"not found"
+            });
+        }
+      
+
         const memo_data = `select memo_content from memo where created_date = "${date}"; `;
         const memo_result = await connection.query(memo_data);
         const memo_maping = memo_result[0].map((el) => el.memo_content);
