@@ -23,25 +23,28 @@ router.get('/', async (req, res, next) => {
         ])
 
 
-        const content_time =  result[0][0].map((el) => el.created_date);
-        const live_broadcast =  result[1][0].map((el) => el.created_date);
+        const content_time = result[0][0].map((el) => el.created_date);
+        const live_broadcast = result[1][0].map((el) => el.created_date);
+        var content_list = [];
+        var live_broadcast_list = [];
 
-        // for (let i of content_time) {
-        //     console.log(typeof(i));
-        //     const j = String(i);
-        //     console.log(typeof(j));
-        //     console.log(String(i));
-        //     j.substring(0,10);
-        //     const ij = j.substring(8,15);
-        //     const ij2 = ij.split(" ");
-        //     console.log(ij2[1]+"-"+ij2[0]);
-        // }
-            console.log(content_time);
-            console.log(live_broadcast);
+         
+        for (var content of content_time) {
+            console.log(getYmd10(content));
+            content_list.push(getYmd10(content));
+        }
+        for (var live of live_broadcast) {
+            console.log(getYmd10(live));
+            live_broadcast_list.push(getYmd10(live));
+        }
+
+
+        console.log(content_list);
+        console.log(live_broadcast_list);
 
         return res.status(200).json({
-            content: content_time,
-            live_broadcast: live_broadcast
+            content: content_list,
+            live_broadcast: live_broadcast_list
         });
     } catch (error) {
         res.status(500).json({
@@ -54,6 +57,10 @@ router.get('/', async (req, res, next) => {
 
 });
 
-
+function getYmd10(i) {
+    //yyyy-mm-dd 포맷 날짜 생성
+    var d = i;
+    return d.getFullYear() + "-" + ((d.getMonth() + 1) > 9 ? (d.getMonth() + 1).toString() : "0" + (d.getMonth() + 1)) + "-" + (d.getDate() > 9 ? d.getDate().toString() : "0" + d.getDate().toString());
+}
 
 module.exports = router;
