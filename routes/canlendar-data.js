@@ -12,7 +12,7 @@ router.get('/', async (req, res, next) => {
         const today_date = req.body.today_date;
         const first_date = today_date + "-01";
         const last_date = today_date + "-31";
-     
+
 
         const content_cal = `select created_date from contents where created_date between "${first_date}" and "${last_date}"; `;
         const live_broadcast_cal = `select created_date from live_broadcast where created_date between "${first_date}" and "${last_date}"; `;
@@ -21,11 +21,23 @@ router.get('/', async (req, res, next) => {
             connection.query(content_cal),
             connection.query(live_broadcast_cal)
         ])
-        console.log(result[0][0]);
-        console.log(result[1][0]);
 
-        const content_time = result[0][0].map((el) => el.created_date);
-        const live_broadcast = result[1][0].map((el) => el.created_date);
+
+        const content_time =  result[0][0].map((el) => el.created_date);
+        const live_broadcast =  result[1][0].map((el) => el.created_date);
+
+        // for (let i of content_time) {
+        //     console.log(typeof(i));
+        //     const j = String(i);
+        //     console.log(typeof(j));
+        //     console.log(String(i));
+        //     j.substring(0,10);
+        //     const ij = j.substring(8,15);
+        //     const ij2 = ij.split(" ");
+        //     console.log(ij2[1]+"-"+ij2[0]);
+        // }
+            console.log(content_time);
+            console.log(live_broadcast);
 
         return res.status(200).json({
             content: content_time,
