@@ -10,6 +10,13 @@ router.get('/', async (req, res, next) => {
     await connection.connect();
     try {
         const today_date = req.body.today_date;
+
+        if(today_date === undefined){
+            return res.status(404).json({
+              code: 404,
+              message:"not found"
+            });
+        }
         const first_date = today_date + "-01";
         const last_date = today_date + "-31";
 

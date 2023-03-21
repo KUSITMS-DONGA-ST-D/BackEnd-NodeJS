@@ -10,9 +10,10 @@ router.get('/', async (req, res, next) => {
     await connection.connect();
     try {
         const date = req.body.date;
-        
-        if(date === null){
+        console.log(date);
+        if(date === undefined){
             return res.status(404).json({
+              code: 404,
               message:"not found"
             });
         }
